@@ -13,13 +13,13 @@ final class FileUtils {
      * @param pathname Like /Users/al/foo/bar.txt
      * @return All the content of given file as one String
      */
-    static String readFile(String pathname) {
+    static String readFile(final String pathname) {
         try {
             return new String(Files.readAllBytes(Paths.get(pathname)));
         } catch (IOException e) {
             System.err.println("malformed read operation: pathname=\"" + pathname + "\"");
+            return null;
         }
-        return null;
     }
 
     /**
@@ -27,10 +27,9 @@ final class FileUtils {
      * @param pathname Like /Users/al/foo/bar.txt
      * @param text All the text you want to save to the file as one String
      */
-    static void writeFile(String pathname, String text) {
-        var file = new File(pathname);
+    static void writeFile(final String pathname, final String text) {
         try {
-            var out = new BufferedWriter(new FileWriter(file));
+            var out = new BufferedWriter(new FileWriter(new File(pathname)));
             out.write(text);
             out.close();
         } catch (IOException e) {
@@ -43,7 +42,7 @@ final class FileUtils {
      * @param pathname Like /Users/al/foo/bar.txt
      * @return true if file does exists, false otherwise
      */
-    static boolean fileExists(String pathname) {
+    static boolean fileExists(final String pathname) {
         var file = new File(pathname);
         return file.exists() && !file.isDirectory();
     }
@@ -52,7 +51,7 @@ final class FileUtils {
      * Deletes file or empty directory from drive
      * @param pathname Like /Users/al/foo/bar.txt
      */
-    static void deleteFile(String pathname) {
+    static void deleteFile(final String pathname) {
         try {
             Files.delete(Paths.get(pathname));
         } catch (IOException e) {

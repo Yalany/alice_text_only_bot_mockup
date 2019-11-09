@@ -33,6 +33,7 @@ final class PlayerSessionCache {
         var timer = new Timer();
         timeouts.put(userId, timer);
         timer.schedule(new TimerTask() {
+            @Override
             public void run() {
                 cache.remove(userId);
                 timeouts.remove(userId).cancel();
