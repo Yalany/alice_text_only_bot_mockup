@@ -1,23 +1,13 @@
 package game.actions;
 
-import nlp.UserIntent;
-
 import java.util.HashSet;
 
 public class GameEvent {
-    private final UserIntent intent;
     private final HashSet<Trigger> subscribers = new HashSet<>();
 
-    public GameEvent(final UserIntent intent) {
-        this.intent = intent;
-    }
 
     public void subscribe(final Condition condition, final Action action) {
         subscribers.add(new Trigger(condition, action));
-    }
-
-    public UserIntent getIntent() {
-        return intent;
     }
 
     public void run(final ActionContext inContext) {
