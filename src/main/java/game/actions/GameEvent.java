@@ -1,17 +1,23 @@
 package game.actions;
 
+import nlp.UserIntent;
+
 import java.util.HashSet;
 
-public class GameEvent {
+public final class GameEvent {
+    private final UserIntent intent;
     private final HashSet<Trigger> subscribers = new HashSet<>();
 
+    public GameEvent(final UserIntent intent) {
+        this.intent = intent;
+    }
 
     public void subscribe(final Condition condition, final Action action) {
         subscribers.add(new Trigger(condition, action));
     }
 
-    public void run(final ActionContext inContext) {
-        subscribers.forEach(trigger -> trigger.run(inContext));
+    public boolean run(final String[] input, final ActionContext inContext) {
+        return intent.isIntended(input) && subscribers.stream().anyMatch(trigger -> trigger.run(inContext));
     }
 
     private class Trigger {
@@ -27,8 +33,12 @@ public class GameEvent {
             return condition.validate(inContext);
         }
 
-        private void run(final ActionContext inContext) {
-            if (validate(inContext)) action.run(inContext);
+        private boolean run(final ActionContext inContext) {
+            if (validate(inContext)) {
+                action.run(inContext);
+                return true;
+            }
+            return false;
         }
     }
 }

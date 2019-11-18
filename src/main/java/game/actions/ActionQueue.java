@@ -16,15 +16,19 @@ public final class ActionQueue implements Action {
         execute(this, inContext);
     }
 
-    ActionQueue add(final Action action) {
-        return action == null ? this : add(new ActionQueue(action));
+    public static ActionQueue newHead() {
+        return new ActionQueue(inContext -> {/*empty action*/});
     }
 
-    private ActionQueue add(final ActionQueue sequence) {
-        if (sequence == null) return this;
+    public void add(final Action action) {
+        assert action != null;
+        add(new ActionQueue(action));
+    }
+
+    private void add(final ActionQueue sequence) {
+        assert sequence != null;
         last.next = sequence;
         last = sequence.last;
-        return this;
     }
 
     private static void execute(final ActionQueue queue, final ActionContext inContext) {

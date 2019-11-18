@@ -1,11 +1,13 @@
 package game;
 
+import protocol.AliceResponse;
+
 public final class GameResponse {
-    private final protocol.AliceResponse response;
+    private final AliceResponse response;
 
     GameResponse(final GameRequest input) {
         var request = input.getAliceRequest();
-        response = new protocol.AliceResponse();
+        response = new AliceResponse();
         response.response = response.new Response();
         response.session = response.new Session();
         response.session.messageId = request.session.messageId;
@@ -24,7 +26,7 @@ public final class GameResponse {
         return this;
     }
 
-    GameResponse setButtons(final protocol.AliceResponse.Response.Button[] buttons) {
+    GameResponse setButtons(final AliceResponse.Response.Button[] buttons) {
         response.response.buttons = buttons;
         return this;
     }
@@ -34,7 +36,7 @@ public final class GameResponse {
         return this;
     }
 
-    public protocol.AliceResponse toAliceResponse() {
+    public AliceResponse toAliceResponse() {
         return response;
     }
 }
