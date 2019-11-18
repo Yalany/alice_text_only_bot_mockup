@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import game.actions.ActionContext;
 
-final class PlayerSession implements ActionContext {
+final class PlayerContext implements ActionContext {
     private final static Gson GSON = new Gson();
 
     // todo вынести в конфиг
@@ -34,18 +34,23 @@ final class PlayerSession implements ActionContext {
     @SerializedName("health")
     private int health = STARTING_HEALTH;
 
-    private PlayerSession(final String userId) {
+    private PlayerContext(final String userId) {
         this.userId = userId;
     }
 
-    void save() {
-        FileUtils.writeFile(path(userId), GSON.toJson(this));
+    static PlayerContext get(final String userId) {
+        if (FileUtils.fileExists(path(userId)))
+            return GSON.fromJson(FileUtils.readFile(path(userId)), PlayerContext.class);
+        return new PlayerContext(userId);
     }
 
-    static PlayerSession get(final String userId) {
-        if (FileUtils.fileExists(path(userId)))
-            return GSON.fromJson(FileUtils.readFile(path(userId)), PlayerSession.class);
-        return new PlayerSession(userId);
+    @Override
+    public void catchAll() {
+
+    }
+
+    public void save() {
+        FileUtils.writeFile(path(userId), GSON.toJson(this));
     }
 
     private static String path(final String userId) {
