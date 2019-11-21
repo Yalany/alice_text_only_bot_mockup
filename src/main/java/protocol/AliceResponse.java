@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName;
  *  Ответ, сформированный на конкретный запрос.
  */
 public final class AliceResponse {
+    public AliceResponse() {
+        response = new Response();
+        session = new Session();
+    }
     /**
      *  Данные для ответа пользователю.
      */

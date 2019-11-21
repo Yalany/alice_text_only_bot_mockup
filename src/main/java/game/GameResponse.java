@@ -6,10 +6,9 @@ public final class GameResponse {
     private final AliceResponse response;
 
     GameResponse(final GameRequest input) {
+        if (input == null) throw new IllegalArgumentException("GameRequest cannot be null");
         var request = input.getAliceRequest();
         response = new AliceResponse();
-        response.response = response.new Response();
-        response.session = response.new Session();
         response.session.messageId = request.session.messageId;
         response.session.sessionId = request.session.sessionId;
         response.session.userId = request.session.userId;
