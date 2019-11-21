@@ -6,7 +6,7 @@ public final class GameRequest {
     private final AliceRequest request;
 
     public GameRequest(final AliceRequest request) {
-        if (request == null) throw new IllegalArgumentException("AliceRequest cannot be null");
+        assert request != null : "AliceRequest cannot be null";
         this.request = request;
     }
 

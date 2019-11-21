@@ -28,6 +28,7 @@ public final class Game {
     }
 
     private GameResponse catchAll(final GameRequest request) {
+        // todo сделать хранение и удаление стейта кетчолл для всех контекстов
         return new GameResponse(request);
     }
 }

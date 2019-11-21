@@ -31,7 +31,8 @@ final class PlayerContext implements ActionContext {
         this.userId = userId;
     }
 
-    String getUserId() {
+    @Override
+    public String getUserId() {
         return userId;
     }
 

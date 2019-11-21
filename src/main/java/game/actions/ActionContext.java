@@ -5,4 +5,6 @@ import game.GameResponse;
 
 public interface ActionContext {
     GameResponse getResponse(GameRequest request);
+
+    String getUserId();
 }

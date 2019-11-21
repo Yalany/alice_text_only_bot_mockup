@@ -1,5 +1,6 @@
 package game;
 
+import com.google.gson.Gson;
 import game.actions.ActionContext;
 
 import java.util.HashMap;
@@ -7,11 +8,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 final class PlayerContextCache {
+    // todo вынести в конфиг
     private final static long TIMEOUT_SECONDS = 600;
-
-    private final HashMap<String, PlayerContext> cache = new HashMap<>();
+    private final static String USER_DATA_DIRECTORY = "../user_data/";
+    private final static String FILE_POSTFIX = ".json";
+    private final HashMap<String, ActionContext> cache = new HashMap<>();
     private final HashMap<String, Timer> timeouts = new HashMap<>();
-    private final PlayerContextAccessor accessor = new PlayerContextAccessor();
 
     ActionContext getContext(final GameRequest request) {
          return request.isNewSession()
@@ -20,7 +22,7 @@ final class PlayerContextCache {
     }
 
     private ActionContext cacheContext(final String userId) {
-        cache.put(userId, accessor.load(userId));
+        cache.put(userId, PlayerContextAccessor.load(userId));
         return getCachedContext(userId);
     }
 
@@ -38,9 +40,27 @@ final class PlayerContextCache {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                accessor.save(cache.remove(userId));
+                PlayerContextAccessor.save(cache.remove(userId));
                 timeouts.remove(userId).cancel();
             }
         },1000 * TIMEOUT_SECONDS);
+    }
+
+    private final static class PlayerContextAccessor {
+        private final static Gson GSON = new Gson();
+
+        private static ActionContext load(final String userId) {
+            if (FileUtils.fileExists(path(userId)))
+                return GSON.fromJson(FileUtils.readFile(path(userId)), PlayerContext.class);
+            return new PlayerContext(userId);
+        }
+
+        private static void save(final ActionContext context) {
+            FileUtils.writeFile(path(context.getUserId()), GSON.toJson(context));
+        }
+
+        private static String path(final String userId) {
+            return USER_DATA_DIRECTORY + userId + FILE_POSTFIX;
+        }
     }
 }
