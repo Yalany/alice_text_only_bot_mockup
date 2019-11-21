@@ -9,7 +9,7 @@ import java.util.TimerTask;
 final class PlayerContextCache {
     private final static long TIMEOUT_SECONDS = 600;
 
-    private final HashMap<String, ActionContext> cache = new HashMap<>();
+    private final HashMap<String, PlayerContext> cache = new HashMap<>();
     private final HashMap<String, Timer> timeouts = new HashMap<>();
     private final PlayerContextAccessor accessor = new PlayerContextAccessor();
 
@@ -38,7 +38,7 @@ final class PlayerContextCache {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                cache.remove(userId);
+                accessor.save(cache.remove(userId));
                 timeouts.remove(userId).cancel();
             }
         },1000 * TIMEOUT_SECONDS);
