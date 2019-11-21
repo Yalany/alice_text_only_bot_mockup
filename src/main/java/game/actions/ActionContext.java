@@ -1,5 +1,8 @@
 package game.actions;
 
+import game.GameRequest;
+import game.GameResponse;
+
 public interface ActionContext {
-    void catchAll();
+    GameResponse getResponse(GameRequest request);
 }

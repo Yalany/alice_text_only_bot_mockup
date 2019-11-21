@@ -45,8 +45,8 @@ final class PlayerContext implements ActionContext {
     }
 
     @Override
-    public void catchAll() {
-
+    public GameResponse getResponse(final GameRequest request) {
+        return new GameResponse(request);
     }
 
     public void save() {

@@ -13,20 +13,21 @@ public final class Game {
      * @return ответ со всей информацией, необходимой для вывода ответа игроку
      */
     public GameResponse getResponse(final GameRequest request) {
-        var actionContext = contextCache.getContext(request);
+        var inContext = contextCache.getContext(request);
         var isCatchAll = true;
-        for (GameEvent intent : gameEvents)
-            if (intent.run(request.getInput(), actionContext))
+        for (GameEvent event : gameEvents)
+            if (event.run(request.getInput(), inContext))
                 isCatchAll = false;
-        if (isCatchAll)
-            actionContext.catchAll();
 
-        // todo заполнять response в соответствии с состоянием контекста
-        return new GameResponse(request);
+        if (isCatchAll) return catchAll(request);
+        return inContext.getResponse(request);
     }
-
 
     void addGameEvent(final GameEvent event) {
         gameEvents.add(event);
+    }
+
+    private GameResponse catchAll(final GameRequest request) {
+        return new GameResponse(request);
     }
 }
