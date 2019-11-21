@@ -11,6 +11,7 @@ final class PlayerContextCache {
 
     private final HashMap<String, ActionContext> cache = new HashMap<>();
     private final HashMap<String, Timer> timeouts = new HashMap<>();
+    private final PlayerContextAccessor accessor = new PlayerContextAccessor();
 
     ActionContext getContext(final GameRequest request) {
          return request.isNewSession()
@@ -19,7 +20,7 @@ final class PlayerContextCache {
     }
 
     private ActionContext cacheContext(final String userId) {
-        cache.put(userId, PlayerContext.get(userId));
+        cache.put(userId, accessor.load(userId));
         return getCachedContext(userId);
     }
 
