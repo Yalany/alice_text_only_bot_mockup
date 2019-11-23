@@ -8,6 +8,9 @@ public final class GameEvent {
     private final UserIntent intent;
     private final HashSet<Trigger> subscribers = new HashSet<>();
 
+    /**
+     * @param intent UserIntent for this GameEvent to be associated with
+     */
     public GameEvent(final UserIntent intent) {
         this.intent = intent;
     }
@@ -16,6 +19,11 @@ public final class GameEvent {
         subscribers.add(new Trigger(condition, action));
     }
 
+    /**
+     * @param input     array of String with input tokens to decide if event is thrown
+     * @param inContext ActionContext to throw event in it
+     * @return true if anything happened upon event throw, false otherwise
+     */
     public boolean run(final String[] input, final ActionContext inContext) {
         return intent.isIntended(input) && subscribers.stream().anyMatch(trigger -> trigger.run(inContext));
     }
