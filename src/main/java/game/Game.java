@@ -1,7 +1,5 @@
 package game;
 
-import game.actions.GameEvent;
-
 import java.util.HashSet;
 
 public final class Game {
