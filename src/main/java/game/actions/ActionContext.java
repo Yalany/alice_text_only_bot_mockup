@@ -7,4 +7,6 @@ public interface ActionContext {
     GameResponse getResponse(GameRequest request);
 
     String getUserId();
+
+    void save();
 }
