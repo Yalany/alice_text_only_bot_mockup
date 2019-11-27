@@ -13,14 +13,12 @@ final class PlayerContextCache {
     private final HashMap<String, Timer> timeouts = new HashMap<>();
 
     ActionContext getContext(final GameRequest request) {
-         return request.isNewSession()
-                 ? cacheContext(request.getUserId())
-                 : getCachedContext(request.getUserId());
+        if (request.isNewSession()) cacheContext(request.getUserId());
+        return getCachedContext(request.getUserId());
     }
 
-    private ActionContext cacheContext(final String userId) {
+    private void cacheContext(final String userId) {
         cache.put(userId, PlayerContext.Loader.load(userId));
-        return getCachedContext(userId);
     }
 
     private ActionContext getCachedContext(final String userId) {
@@ -37,7 +35,7 @@ final class PlayerContextCache {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                PlayerContext.Loader.save(cache.remove(userId));
+                cache.remove(userId).save();
                 timeouts.remove(userId).cancel();
             }
         },1000 * TIMEOUT_SECONDS);
