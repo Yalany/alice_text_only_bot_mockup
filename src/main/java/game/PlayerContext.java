@@ -28,10 +28,6 @@ final class PlayerContext implements ActionContext {
     }
 
     final static class Loader {
-        //todo вынести в конфиг
-        private final static String USER_DATA_DIRECTORY = "../user_data/";
-        private final static String FILE_POSTFIX = ".json";
-
         private final static Gson GSON = new Gson();
 
         static ActionContext load(final String userId) {
@@ -45,7 +41,7 @@ final class PlayerContext implements ActionContext {
         }
 
         private static String path(final String userId) {
-            return USER_DATA_DIRECTORY + userId + FILE_POSTFIX;
+            return Config.USER_DATA_DIRECTORY + userId + Config.JSON_POSTFIX;
         }
     }
 }

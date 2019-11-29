@@ -7,8 +7,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 final class PlayerContextCache {
-    // todo вынести в конфиг
-    private final static long TIMEOUT_SECONDS = 600;
     private final HashMap<String, ActionContext> cache = new HashMap<>();
     private final HashMap<String, Timer> timeouts = new HashMap<>();
 
@@ -38,6 +36,6 @@ final class PlayerContextCache {
                 cache.remove(userId).save();
                 timeouts.remove(userId).cancel();
             }
-        },1000 * TIMEOUT_SECONDS);
+        }, 1000 * Config.USER_DATA_CACHE_TIMEOUT_SECONDS);
     }
 }
