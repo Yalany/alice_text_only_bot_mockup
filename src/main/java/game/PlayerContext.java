@@ -27,6 +27,7 @@ final class PlayerContext implements ActionContext {
         return new GameResponse(request);
     }
 
+
     final static class Loader {
         private final static Gson GSON = new Gson();
 
