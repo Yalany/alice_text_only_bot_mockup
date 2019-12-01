@@ -36,12 +36,12 @@ final class PlayerContext implements ActionContext {
             return new PlayerContext(userId);
         }
 
-        static void save(final ActionContext context) {
+        private static void save(final ActionContext context) {
             FileUtils.writeFile(path(context.getUserId()), GSON.toJson(context));
         }
 
         private static String path(final String userId) {
-            return Config.USER_DATA_DIRECTORY + userId + Config.JSON_POSTFIX;
+            return GameSettings.USER_DATA_DIRECTORY + userId + GameSettings.JSON_POSTFIX;
         }
     }
 }

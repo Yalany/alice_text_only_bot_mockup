@@ -36,6 +36,6 @@ final class PlayerContextCache {
                 cache.remove(userId).save();
                 timeouts.remove(userId).cancel();
             }
-        }, 1000 * Config.USER_DATA_CACHE_TIMEOUT_SECONDS);
+        }, 1000 * GameSettings.USER_DATA_CACHE_TIMEOUT_SECONDS);
     }
 }
