@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public final class Launcher {
-    // todo вынести в конфиг
     private final static int PORT = 8000;
     private final static int BACKLOG = 0;
     private final static String CONTEXT_PATH = "/game";
