@@ -5,15 +5,16 @@ import com.google.gson.annotations.SerializedName;
 import game.actions.ActionContext;
 
 final class UserData implements ActionContext {
-    @SerializedName("user_id")
-    private final String userId;
 
-    private final static Gson GSON = new Gson();
-
+    /* code lies here */
 
     ///////////////////////////////////////////////
     // Below lies serialization behavior
     ///////////////////////////////////////////////
+    @SerializedName("user_id")
+    private final String userId;
+
+    private final static Gson GSON = new Gson();
 
     private UserData(final String userId) {
         this.userId = userId;

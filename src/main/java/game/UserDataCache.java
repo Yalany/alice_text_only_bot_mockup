@@ -10,6 +10,7 @@ final class UserDataCache {
 
     void cacheUserData(final String userId) {
         cache.put(userId, UserData.load(userId));
+        resetTimeout(userId);
     }
 
     UserData getCachedUserData(final String userId) {
