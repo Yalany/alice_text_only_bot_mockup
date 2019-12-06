@@ -14,7 +14,7 @@ final class UserDataCache {
     }
 
     UserData getCachedUserData(final String userId) {
-        assert cache.containsKey(userId) : "attempt to get non-cached context from cache";
+        assert cache.containsKey(userId) : "attempt to get non-cached UserData from UserDataCache";
         resetTimeout(userId);
         return cache.get(userId);
     }
