@@ -2,10 +2,10 @@ package game;
 
 import protocol.AliceRequest;
 
-public final class GameRequest {
+public final class Request {
     private final AliceRequest request;
 
-    public GameRequest(final AliceRequest request) {
+    public Request(final AliceRequest request) {
         assert request != null : "AliceRequest cannot be null";
         this.request = request;
     }

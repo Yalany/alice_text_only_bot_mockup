@@ -1,32 +1,20 @@
 package game;
 
-import java.util.HashSet;
-
 public final class Game {
-    private final PlayerContextCache contextCache = new PlayerContextCache();
-    private final HashSet<GameEvent> gameEvents = new HashSet<>();
+    private final UserDataCache userDataCache = new UserDataCache();
 
     /**
      * @param request реквест, на который требуется ответ
      * @return ответ со всей информацией, необходимой для вывода ответа игроку
      */
-    public GameResponse getResponse(final GameRequest request) {
-        var inContext = contextCache.getContext(request);
-        var isCatchAll = true;
-        for (GameEvent event : gameEvents)
-            if (event.run(request.getInput(), inContext))
-                isCatchAll = false;
-
-        if (isCatchAll) return catchAll(request);
-        return inContext.getResponse(request);
+    public Response getResponse(final Request request) {
+        assert request != null : "request is null";
+        var userData = getUserData(request.getUserId(), request.isNewSession());
+        return new Response(request);
     }
 
-    void addGameEvent(final GameEvent event) {
-        gameEvents.add(event);
-    }
-
-    private GameResponse catchAll(final GameRequest request) {
-        // todo сделать хранение и удаление стейта кетчолл для всех контекстов
-        return new GameResponse(request);
+    private UserData getUserData(final String userId, final boolean isNewSession) {
+        if (isNewSession) userDataCache.cacheUserData(userId);
+        return userDataCache.getCachedUserData(userId);
     }
 }

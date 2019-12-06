@@ -2,11 +2,11 @@ package game;
 
 import protocol.AliceResponse;
 
-public final class GameResponse {
+public final class Response {
     private final AliceResponse response;
 
-    GameResponse(final GameRequest input) {
-        assert (input != null) : "GameRequest cannot be null";
+    Response(final Request input) {
+        assert (input != null) : "Request cannot be null";
         var request = input.getAliceRequest();
         response = new AliceResponse();
         response.session.messageId = request.session.messageId;
@@ -15,22 +15,22 @@ public final class GameResponse {
         response.version = request.version;
     }
 
-    GameResponse setText(final String text) {
+    Response setText(final String text) {
         response.response.text = text;
         return this;
     }
 
-    GameResponse setTTS(final String tts) {
+    Response setTTS(final String tts) {
         response.response.tts = tts;
         return this;
     }
 
-    GameResponse setButtons(final AliceResponse.Response.Button[] buttons) {
+    Response setButtons(final AliceResponse.Response.Button[] buttons) {
         response.response.buttons = buttons;
         return this;
     }
 
-    GameResponse setEndSession(final boolean endSession) {
+    Response setEndSession(final boolean endSession) {
         response.response.endSession = endSession;
         return this;
     }

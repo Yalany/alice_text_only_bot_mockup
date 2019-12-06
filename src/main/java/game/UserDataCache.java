@@ -1,25 +1,18 @@
 package game;
 
-import game.actions.ActionContext;
-
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-final class PlayerContextCache {
-    private final HashMap<String, ActionContext> cache = new HashMap<>();
+final class UserDataCache {
+    private final HashMap<String, UserData> cache = new HashMap<>();
     private final HashMap<String, Timer> timeouts = new HashMap<>();
 
-    ActionContext getContext(final GameRequest request) {
-        if (request.isNewSession()) cacheContext(request.getUserId());
-        return getCachedContext(request.getUserId());
+    void cacheUserData(final String userId) {
+        cache.put(userId, UserData.load(userId));
     }
 
-    private void cacheContext(final String userId) {
-        cache.put(userId, PlayerContext.Loader.load(userId));
-    }
-
-    private ActionContext getCachedContext(final String userId) {
+    UserData getCachedUserData(final String userId) {
         assert cache.containsKey(userId) : "attempt to get non-cached context from cache";
         resetTimeout(userId);
         return cache.get(userId);
@@ -36,6 +29,6 @@ final class PlayerContextCache {
                 cache.remove(userId).save();
                 timeouts.remove(userId).cancel();
             }
-        }, 1000 * GameSettings.USER_DATA_CACHE_TIMEOUT_SECONDS);
+        }, 1000 * Settings.USER_DATA_CACHE_TIMEOUT_SECONDS);
     }
 }

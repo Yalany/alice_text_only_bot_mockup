@@ -1,24 +1,22 @@
-package game;
+package game.actions;
 
-import game.actions.Action;
-import game.actions.ActionContext;
-import game.actions.Condition;
 import nlp.UserIntent;
 
 import java.util.HashSet;
 
-final class GameEvent {
+public final class Event {
     private final UserIntent intent;
-    private final HashSet<Trigger> subscribers = new HashSet<>();
+    private final HashSet<Trigger> subscribers;
 
     /**
-     * @param intent UserIntent for this GameEvent to be associated with
+     * @param intent UserIntent for this Event to be associated with
      */
-    GameEvent(final UserIntent intent) {
+    Event(final UserIntent intent) {
         this.intent = intent;
+        subscribers = new HashSet<>();
     }
 
-    void subscribe(final Condition condition, final Action action) {
+    public void subscribe(final Condition condition, final Action action) {
         subscribers.add(new Trigger(condition, action));
     }
 
@@ -27,7 +25,7 @@ final class GameEvent {
      * @param inContext ActionContext to throw event in it if event should be thrown
      * @return true if any Action were performed upon event throw, false otherwise
      */
-    boolean run(final String[] input, final ActionContext inContext) {
+    public boolean run(final String[] input, final ActionContext inContext) {
         return intent.isIntended(input) && subscribers.stream().anyMatch(trigger -> trigger.run(inContext));
     }
 
