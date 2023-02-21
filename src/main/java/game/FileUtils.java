@@ -6,26 +6,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 final class FileUtils {
+    private static final Logger log = LogManager.getLogger(LoggingLog4j.class);
+    private FileUtils() { }
+
     /**
-     * Read the text from the file with given filename.
-     * @param pathname Like /Users/al/foo/bar.txt
+     * @param pathname in form /Users/al/foo/bar.txt
      * @return All the content of given file as one String
      */
     static String readFile(final String pathname) {
         try {
             return new String(Files.readAllBytes(Paths.get(pathname)));
         } catch (IOException e) {
-            System.err.println("malformed read operation: pathname=\"" + pathname + "\"");
+            logger.log(Level.WARNING, "malformed read operation: pathname=\"" + pathname + "\" ", e);
             return null;
         }
     }
 
     /**
-     * Save the given text to the given filename.
-     * @param pathname Like /Users/al/foo/bar.txt
-     * @param text All the text you want to save to the file as one String
+     * @param pathname in form /Users/al/foo/bar.txt
+     * @param text String to be saved
      */
     static void writeFile(final String pathname, final String text) {
         try {
@@ -33,13 +36,12 @@ final class FileUtils {
             out.write(text);
             out.close();
         } catch (IOException e) {
-            System.err.println("malformed write operation: pathname=\"" + pathname + "\", text=\"" + text + "\"");
+            logger.log(Level.WARNING, "malformed write operation: pathname=\"" + pathname + "\", text=\"" + text + "\" ", e);
         }
     }
 
     /**
-     * Check if file exists on drive
-     * @param pathname Like /Users/al/foo/bar.txt
+     * @param pathname in form /Users/al/foo/bar.txt
      * @return true if file does exists, false otherwise
      */
     static boolean fileExists(final String pathname) {
@@ -48,16 +50,14 @@ final class FileUtils {
     }
 
     /**
-     * Deletes file or empty directory from drive
-     * @param pathname Like /Users/al/foo/bar.txt
+     * Removes a file or empty directory from disk
+     * @param pathname in form /Users/al/foo/bar.txt
      */
     static void deleteFile(final String pathname) {
         try {
             Files.delete(Paths.get(pathname));
         } catch (IOException e) {
-            System.err.println("malformed delete operation: pathname=\"" + pathname + "\"");
+            logger.log(Level.WARNING, "malformed delete operation: pathname=\"" + pathname + "\"", e);
         }
     }
-
-    private FileUtils() { }
 }
