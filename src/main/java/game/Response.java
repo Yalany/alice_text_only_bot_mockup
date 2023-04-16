@@ -9,9 +9,6 @@ public final class Response {
         assert (input != null) : "Request cannot be null";
         var request = input.getAliceRequest();
         response = new AliceResponse();
-        response.session.messageId = request.session.messageId;
-        response.session.sessionId = request.session.sessionId;
-        response.session.userId = request.session.userId;
         response.version = request.version;
     }
 

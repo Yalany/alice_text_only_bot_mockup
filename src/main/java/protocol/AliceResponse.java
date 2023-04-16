@@ -5,11 +5,12 @@ import com.google.gson.annotations.SerializedName;
 /**
  *  Ответ, сформированный на конкретный запрос.
  */
+@SuppressWarnings("unused")
 public final class AliceResponse {
     public AliceResponse() {
         response = new Response();
-        session = new Session();
     }
+
     /**
      *  Данные для ответа пользователю.
      */
@@ -17,23 +18,16 @@ public final class AliceResponse {
     public Response response;
 
     /**
-     *  Данные о сессии.
-     */
-    @SerializedName("session")
-    public Session session;
-
-    /**
      *  Версия протокола. Текущая версия — 1.0.
      */
     @SerializedName("version")
     public String version;
 
-
     /**
      *  Помимо описанного функционала возможна отправка изображений.
      *  Подробнее: https://yandex.ru/dev/dialogs/alice/doc/protocol-docpage/#response
      */
-    public final class Response {
+    public static final class Response {
         /**
          *  Текст, который следует показать и сказать пользователю. Максимум 1024 символа. Не должен быть пустым.
          *  Текст также используется, если у Алисы не получилось отобразить включенную в ответ карточку (response.card).
@@ -72,27 +66,13 @@ public final class AliceResponse {
         @SerializedName("end_session")
         public boolean endSession;
 
-
-        public final class Button {
+        public static final class Button {
             /**
              *  Текст кнопки, обязателен для каждой кнопки. Максимум 64 символа.
              *  Если для кнопки не указано свойство url, по нажатию текст кнопки будет отправлен навыку как реплика пользователя.
              */
             @SerializedName("title")
             public String title;
-
-            /**
-             *  Произвольный JSON, который Яндекс.Диалоги должны отправить обработчику, если данная кнопка будет нажата. Максимум 4096 байт.
-             */
-            @SerializedName("payload")
-            public Payload payload;
-
-            /**
-             *  URL, который должна открывать кнопка, максимум 1024 байта.
-             *  Если свойство url не указано, по нажатию кнопки навыку будет отправлен текст кнопки.
-             */
-            @SerializedName("url")
-            public String url;
 
             /**
              *  Признак того, что кнопку нужно убрать после следующей реплики пользователя. Допустимые значения:
@@ -102,28 +82,5 @@ public final class AliceResponse {
             @SerializedName("hide")
             public boolean hide;
         }
-    }
-
-    public final class Session {
-        /**
-         * Идентификатор экземпляра приложения, в котором пользователь общается с Алисой, максимум 64 символа.
-         * Даже если пользователь авторизован с одним и тем же аккаунтом в приложении Яндекс для Android и iOS,
-         * Яндекс.Диалоги присвоят отдельный user_id каждому из этих приложений.
-         */
-        @SerializedName("user_id")
-        public String userId;
-
-        /**
-         *  Уникальный идентификатор сессии, максимум 64 символов.
-         */
-        @SerializedName("session_id")
-        public String sessionId;
-
-        /**
-         *  Идентификатор сообщения в рамках сессии, максимум 8 символов.
-         *  Инкрементируется с каждым следующим запросом.
-         */
-        @SerializedName("message_id")
-        public int messageId;
     }
 }

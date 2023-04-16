@@ -15,7 +15,7 @@ public final class Request {
     }
 
     String getUserId() {
-        return request.session.userId;
+        return request.session.user.userId;
     }
 
     String[] getInput() {
@@ -26,36 +26,3 @@ public final class Request {
         return request.session.isNew;
     }
 }
-
-
-
-
-/*
-String getLocale() {
-    return request.meta.locale;
-}
-
-String getTimezone() {
-    return request.meta.timezone;
-}
-
-String getClientId() {
-    return request.meta.clientId;
-}
-
-boolean haveScreen() {
-    return request.meta.interfaces.screen != null;
-}
-
-boolean isVoiceInput() {
-    return request.request.type.equals("SimpleUtterance");
-}
-
-boolean isButtonInput() {
-    return request.request.type.equals("ButtonPressed");
-}
-
-String getSkillId() {
-    return request.session.skillId;
-}
-*/
