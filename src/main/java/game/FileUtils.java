@@ -6,11 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 final class FileUtils {
-    private static final Logger log = LogManager.getLogger(LoggingLog4j.class);
     private FileUtils() { }
 
     /**
@@ -21,7 +18,7 @@ final class FileUtils {
         try {
             return new String(Files.readAllBytes(Paths.get(pathname)));
         } catch (IOException e) {
-            logger.log(Level.WARNING, "malformed read operation: pathname=\"" + pathname + "\" ", e);
+            System.err.println("malformed read operation: pathname=\"" + pathname + "\"");
             return null;
         }
     }
@@ -32,11 +29,11 @@ final class FileUtils {
      */
     static void writeFile(final String pathname, final String text) {
         try {
-            var out = new BufferedWriter(new FileWriter(new File(pathname)));
+            var out = new BufferedWriter(new FileWriter(pathname));
             out.write(text);
             out.close();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "malformed write operation: pathname=\"" + pathname + "\", text=\"" + text + "\" ", e);
+            System.err.println("malformed write operation: pathname=\"" + pathname + "\", text=\"" + text + "\"");
         }
     }
 
@@ -57,7 +54,7 @@ final class FileUtils {
         try {
             Files.delete(Paths.get(pathname));
         } catch (IOException e) {
-            logger.log(Level.WARNING, "malformed delete operation: pathname=\"" + pathname + "\"", e);
+            System.err.println("malformed delete operation: pathname=\"" + pathname + "\"");
         }
     }
 }
