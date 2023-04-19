@@ -2,9 +2,8 @@ package game;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import game.actions.ActionContext;
 
-final class UserData implements ActionContext {
+final class UserData {
   @SerializedName("user_id")
   private final String userId;
 

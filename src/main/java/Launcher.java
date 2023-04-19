@@ -18,7 +18,6 @@ public final class Launcher {
       responseBody.write(response.getBytes());
       responseBody.close();
     });
-    server.setExecutor(null);
     server.start();
   }
 }
