@@ -1,18 +1,15 @@
 package nlp;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
 public final class UserIntent {
-  @SerializedName("synonyms")
   private final HashSet<String> synonyms = new HashSet<>();
   /**
    * @param synonymsCollection коллекция String с синонимами, добавляемыми к списку синонимов этого интента
    */
-  public UserIntent addSynonyms(final Collection<? extends String> synonymsCollection) {
+  public UserIntent addSynonyms(final Collection<String> synonymsCollection) {
     synonyms.addAll(synonymsCollection);
     return this;
   }
