@@ -36,8 +36,16 @@ public final class UserIntent {
    *         false если ни один записанный синоним не похож ни на одно слово из words
    */
   public boolean isIntended(final String[] words) {
-    // проверяем каждое слово во вводе пользователя на предмет совпадения или похожести на синонимы интента
     return Arrays.stream(words).anyMatch(this::isIntended);
+  }
+
+  /**
+   * @param words коллекция слов, каждое из которых будет проверено на принадлежность к этому интенту
+   * @return true если хотя бы один записанный синоним похож хотя бы на одно слово из words
+   *         false если ни один записанный синоним не похож ни на одно слово из words
+   */
+  public boolean isIntended(final Collection<String> words) {
+    return words.stream().anyMatch(this::isIntended);
   }
 
   /**
@@ -45,8 +53,7 @@ public final class UserIntent {
    * @return true если хотя бы один записанный синоним похож на word
    *         false если ни один записанный синоним не похож на word
    */
-  private boolean isIntended(final String word) {
-    // сначала проверяем прямое совпадение по списку синонимов, потом проверяем каждый из синонимов на похожесть
+  public boolean isIntended(final String word) {
     return synonyms.contains(word) || synonyms.stream().anyMatch(synonym -> StringSimilarity.isSimilar(synonym, word));
   }
 }
