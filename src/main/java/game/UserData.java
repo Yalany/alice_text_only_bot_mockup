@@ -1,26 +1,24 @@
 package game;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 final class UserData {
   @SerializedName("user_id")
   private final String userId;
 
-  private final static Gson GSON = new Gson();
-
   private UserData(final String userId) {
     this.userId = userId;
+    this.save();
   }
 
-  static UserData load(final String userId) {
+  static UserData getOrNew(final String userId) {
     if (FileUtils.fileExist(path(userId)))
-      return GSON.fromJson(FileUtils.readFile(path(userId)), UserData.class);
+      return Config.GSON.fromJson(FileUtils.readFile(path(userId)), UserData.class);
     return new UserData(userId);
   }
 
   void save() {
-    FileUtils.writeFile(path(userId), GSON.toJson(this));
+    FileUtils.writeFile(path(userId), Config.GSON.toJson(this));
   }
 
   private static String path(final String userId) {

@@ -8,12 +8,12 @@ final class UserDataCache {
   private final HashMap<String, UserData> cache = new HashMap<>();
   private final HashMap<String, Timer> timeouts = new HashMap<>();
 
-  void cacheUserData(final String userId) {
-    cache.put(userId, UserData.load(userId));
+  void cacheUserData(final String userId, UserData userData) {
+    cache.put(userId, userData);
     resetTimeout(userId);
   }
 
-  UserData getCachedUserData(final String userId) {
+  UserData getUserData(final String userId) {
     assert cache.containsKey(userId) : "attempt to get non-cached UserData from UserDataCache";
     resetTimeout(userId);
     return cache.get(userId);

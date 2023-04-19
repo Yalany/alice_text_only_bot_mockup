@@ -14,7 +14,7 @@ public final class Game {
   }
 
   private UserData getUserData(final String userId, final boolean isNewSession) {
-    if (isNewSession) userDataCache.cacheUserData(userId);
-    return userDataCache.getCachedUserData(userId);
+    if (isNewSession) userDataCache.cacheUserData(userId, UserData.getOrNew(userId));
+    return userDataCache.getUserData(userId);
   }
 }
