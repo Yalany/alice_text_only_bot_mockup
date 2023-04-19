@@ -1,4 +1,3 @@
 package game.actions;
 
-public interface ActionContext {
-}
+public interface ActionContext { }
