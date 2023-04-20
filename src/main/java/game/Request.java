@@ -3,26 +3,26 @@ package game;
 import protocol.AliceRequest;
 
 public final class Request {
-  private final AliceRequest request;
+  private final AliceRequest aliceRequest;
 
-  public Request(final AliceRequest request) {
-    assert request != null : "AliceRequest cannot be null";
-    this.request = request;
+  public Request(final AliceRequest aliceRequest) {
+    assert aliceRequest != null : "AliceRequest cannot be null";
+    this.aliceRequest = aliceRequest;
   }
 
   AliceRequest getAliceRequest() {
-    return request;
+    return aliceRequest;
   }
 
   String getUserId() {
-    return request.session.user.userId;
+    return aliceRequest.session.user.userId;
   }
 
   String[] getInput() {
-    return request.request.nlu.tokens;
+    return aliceRequest.request.nlu.tokens;
   }
 
   boolean isNewSession() {
-    return request.session.isNew;
+    return aliceRequest.session.isNew;
   }
 }
